@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        td{
+            width: 100px;
+            margin: 0px;
+            padding: 0px;
+            border: black 1px solid;
+        }
+    </style>
+    <script>
+        window.onload=function () {
+
+
+            // var oLIne=document.getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+            var oTab=document.getElementsByTagName("table");
+            var cnt=3;
+
+
+            var oBtn=document.getElementById("btn");
+            var oTxtname=document.getElementById("name");
+            var oTxtage=document.getElementById("age");
+
+            oBtn.onclick=function () {
+                var oRow=document.createElement("tr");
+                cnt=cnt+1;
+
+                var oLine=document.createElement("td");
+                oLine.innerHTML=cnt;
+                oRow.appendChild(oLine);
+
+                var oLine=document.createElement("td");
+                oLine.innerHTML=oTxtname.value;
+                oRow.appendChild(oLine);
+
+                var oLine=document.createElement("td");
+                oLine.innerHTML=oTxtage.value;
+                oRow.appendChild(oLine);
+
+                var oLine=document.createElement("td");
+                oLine.innerHTML='<a href="javascript:;">删除</a>';
+                // 里面用了双引号，外面就必须单引号
+                var ma=oLine.getElementsByTagName("a")[0];  //这个a的引号，必须加啊
+                ma.onclick=function(){
+                    oTab[0].tBodies[0].removeChild(this.parentNode.parentNode);
+                }
+                oRow.appendChild(oLine);
+
+
+
+
+
+                if(cnt%2==1)
+                    oRow.style.background="yellow";
+
+                var oldcolor="";
+                oRow.onmouseover=function () {
+                    oldcolor=this.style.background;
+                    this.style.background="blue";
+                }
+                oRow.onmouseout=function(){
+                    this.style.background=oldcolor;
+                }
+
+
+                oTab[0].tBodies[0].appendChild(oRow);
+
+            }
+
+
+            var oLine=oTab[0].tBodies[0].rows;
+            for(var i=0;i<oLine.length;i++)
+            {
+                if(i%2==0)
+                    oLine[i].style.background="yellow";
+                else
+                    oLine[i].style.background="";
+
+                var oa=oLine[i].getElementsByTagName("a")[0];
+                //请注意，这里上面其实是越级get了，还有一个<td>级别被跳，但事实证明也可以。
+                oa.onclick=function () {
+                    oTab[0].tBodies[0].removeChild(this.parentNode.parentNode);
+                    //请注意，访问父节点，用"parentNode"，移出子节点，用"removeChild"。
+
+                }
+
+                var oldcolor="";
+                //请注意，这个变量，必须在外面声明，不能声明在函数里面。
+                // 最要命的是，如果变量没有定义过，在javascript里面，不会报错，会默认新定义一个变量。
+                oLine[i].onmouseover=function () {
+                    oldcolor=this.style.background;
+                    this.style.background="blue";
+                    // 请注意，如果不用this，用oLine[i]，就不行，运行的时候没反应
+                    //在函数内指代这个对象本身，必须全部用this，不能oLine[i]。
+                }
+                oLine[i].onmouseout=function(){
+                    this.style.background=oldcolor;
+                }
+            }
+        }
+    </script>
+
+</head>
+<body>
+姓名：
+<input id="name" type="inputbox" style="width:150px"/>
+年龄：
+<input id="age" type="inputbox" style="width:150px" />
+<input id="btn" type="button" value="添加"/>
+<table>
+    <thead>
+    <td>序号</td>
+    <td>姓名</td>
+    <td>年龄</td>
+    <td>操作</td>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>Iris</td>
+        <td>13</td>
+        <td><a href="javascript:;">删除</a></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Keven</td>
+        <td>14</td>
+        <td><a href="javascript:;">删除</a></td>
+
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Leven</td>
+        <td>14</td>
+        <td><a href="javascript:;">删除</a></td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
